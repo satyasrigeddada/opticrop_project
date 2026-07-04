@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OptiCrop — Recommendation Result</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
+
+      :root {
+        --soil-950: #16130f;
+        --soil-900: #211c15;
+        --field-600: #3f5e3a;
+        --field-500: #52753f;
+        --grain-400: #c9a86a;
+        --paper-100: #f4efe4;
+        --paper-050: #faf7ef;
+        --ink-700: #2b271f;
+        --ink-500: #6b6353;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        margin: 0;
+        min-height: 100vh;
+        background: linear-gradient(160deg, var(--soil-950) 0%, var(--soil-900) 45%, var(--field-600) 160%);
+        color: var(--ink-700);
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 28px;
+      }
+
+      .brand {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.78em;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--grain-400);
+      }
+
+      .back-link {
+        text-decoration: none;
+        color: var(--paper-100);
+        font-weight: 500;
+        font-size: 0.92em;
+        border: 1px solid rgba(244,239,228,0.3);
+        padding: 8px 16px;
+        border-radius: 6px;
+        transition: background 0.2s ease;
+      }
+
+      .back-link:hover {
+        background: rgba(244,239,228,0.1);
+      }
+
+      .stage {
+        display: flex;
+        justify-content: center;
+        padding: 40px 24px 80px;
+      }
+
+      .result-box {
+        background: var(--paper-100);
+        border: 1px solid #e6ddc8;
+        padding: 48px 40px;
+        border-radius: 14px;
+        max-width: 480px;
+        width: 100%;
+        box-shadow: 0 24px 48px -20px rgba(22,19,15,0.5);
+        text-align: center;
+      }
+
+      .eyebrow {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.72em;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--field-600);
+        margin: 0 0 14px;
+      }
+
+      .crop-name {
+        font-family: 'Fraunces', serif;
+        font-weight: 700;
+        font-size: 2.6em;
+        margin: 0 0 4px;
+        color: var(--soil-900);
+        text-transform: capitalize;
+      }
+
+      .recommend-tag {
+        font-size: 0.95em;
+        color: var(--ink-500);
+        margin-bottom: 28px;
+      }
+
+      .confidence-block {
+        border-top: 1px solid #e0d6bd;
+        border-bottom: 1px solid #e0d6bd;
+        padding: 22px 0;
+        margin-bottom: 28px;
+      }
+
+      .confidence-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.72em;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-500);
+        margin-bottom: 10px;
+      }
+
+      .confidence-value {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 1.8em;
+        font-weight: 600;
+        color: var(--field-600);
+      }
+
+      .bar-track {
+        height: 8px;
+        border-radius: 4px;
+        background: #e6ddc8;
+        margin-top: 14px;
+        overflow: hidden;
+      }
+
+      .bar-fill {
+        height: 100%;
+        background: var(--field-500);
+        border-radius: 4px;
+        width: {{ probability }}%;
+      }
+
+      .btn {
+        display: inline-block;
+        background-color: var(--field-500);
+        color: var(--paper-050);
+        text-decoration: none;
+        padding: 14px 32px;
+        font-size: 1em;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: background 0.25s ease, transform 0.25s ease;
+      }
+
+      .btn:hover {
+        background-color: var(--field-600);
+        transform: translateY(-1px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <span class="brand">OptiCrop</span>
+      <a class="back-link" href="/">← Back to Home</a>
+    </div>
+
+    <div class="stage">
+      <div class="result-box">
+        <p class="eyebrow">Recommended Crop</p>
+        <h1 class="crop-name">{{ prediction }}</h1>
+        <p class="recommend-tag">Best match for the soil and climate conditions provided</p>
+
+        <div class="confidence-block">
+          <p class="confidence-label">Model Confidence</p>
+          <p class="confidence-value">{{ probability }}%</p>
+          <div class="bar-track">
+            <div class="bar-fill"></div>
+          </div>
+        </div>
+
+        <a href="/predict" class="btn">Get Another Recommendation</a>
+      </div>
+    </div>
+  <div style="background:white;margin:20px;padding:20px;border-radius:12px"><h3>Confidence: {{probability}}%</h3><h3>Top 3 Predictions</h3><ol>{% for c,p in top3 %}<li>{{c}} - {{ "%.2f"|format(p*100) }}%</li>{% endfor %}</ol><h3>Recommended Fertilizers</h3><ul>{% for f in fert %}<li>{{f}}</li>{% endfor %}</ul></div></body>
+</html>

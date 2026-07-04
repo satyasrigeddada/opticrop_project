@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OptiCrop — Field Data Entry</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
+
+      :root {
+        --soil-950: #16130f;
+        --soil-900: #211c15;
+        --field-600: #3f5e3a;
+        --field-500: #52753f;
+        --grain-400: #c9a86a;
+        --paper-100: #f4efe4;
+        --paper-050: #faf7ef;
+        --ink-700: #2b271f;
+        --ink-500: #6b6353;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        margin: 0;
+        min-height: 100vh;
+        background: linear-gradient(160deg, var(--soil-950) 0%, var(--soil-900) 40%, var(--field-600) 200%);
+        padding-bottom: 60px;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 28px;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .brand {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.78em;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--grain-400);
+      }
+
+      .back-link {
+        text-decoration: none;
+        color: var(--paper-100);
+        font-weight: 500;
+        font-size: 0.92em;
+        border: 1px solid rgba(244,239,228,0.3);
+        padding: 8px 16px;
+        border-radius: 6px;
+        transition: background 0.2s ease;
+      }
+
+      .back-link:hover {
+        background: rgba(244,239,228,0.1);
+      }
+
+      .header-block {
+        max-width: 900px;
+        margin: 8px auto 28px;
+        padding: 0 24px;
+        color: var(--paper-100);
+        text-align: center;
+      }
+
+      .eyebrow {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.72em;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--grain-400);
+        margin-bottom: 12px;
+      }
+
+      .header-block h1 {
+        font-family: 'Fraunces', serif;
+        font-weight: 600;
+        font-size: 2.2em;
+        margin: 0 0 10px;
+      }
+
+      .header-block p {
+        color: #d8d2c2;
+        margin: 0;
+        font-size: 1em;
+        line-height: 1.6;
+      }
+
+      .form-container {
+        background: var(--paper-100);
+        border: 1px solid #e6ddc8;
+        padding: 36px 40px 40px;
+        border-radius: 14px;
+        max-width: 900px;
+        margin: 0 auto;
+        box-shadow: 0 24px 48px -20px rgba(22,19,15,0.5);
+      }
+
+      .form-container h2 {
+        font-family: 'Fraunces', serif;
+        font-weight: 600;
+        font-size: 1.4em;
+        margin: 0 0 24px;
+        color: var(--soil-900);
+        border-bottom: 2px solid #e6ddc8;
+        padding-bottom: 14px;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 18px 24px;
+        margin-bottom: 28px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      label {
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 600;
+        font-size: 0.75em;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--ink-500);
+        margin-bottom: 8px;
+      }
+
+      label .unit {
+        text-transform: none;
+        font-weight: 400;
+        color: #a89b7f;
+      }
+
+      input {
+        width: 100%;
+        padding: 11px 12px;
+        border: 1px solid #d6cbae;
+        border-radius: 6px;
+        box-sizing: border-box;
+        font-size: 0.95em;
+        font-family: 'JetBrains Mono', monospace;
+        background: var(--paper-050);
+        color: var(--ink-700);
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: var(--field-500);
+        box-shadow: 0 0 0 3px rgba(82,117,63,0.15);
+      }
+
+      .button-container {
+        grid-column: 1 / -1;
+      }
+
+      button {
+        background-color: var(--field-500);
+        color: var(--paper-050);
+        padding: 14px 15px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+        font-size: 1em;
+        font-weight: 600;
+        transition: background 0.25s ease;
+      }
+
+      button:hover {
+        background-color: var(--field-600);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <span class="brand">OptiCrop</span>
+      <a class="back-link" href="/">← Back to Home</a>
+    </div>
+
+    <div class="header-block">
+      <p class="eyebrow">Field Data Entry</p>
+      <h1>Enter your soil &amp; climate readings</h1>
+      <p>Provide the seven parameters below and OptiCrop will recommend the crop best suited to these conditions.</p>
+    </div>
+
+    <div class="form-container">
+      <h2>Soil &amp; Environmental Parameters</h2>
+      <form action="/predict" method="POST">
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label>Nitrogen (N) <span class="unit">kg/ha</span></label>
+            <input type="number" step="any" name="N" placeholder="e.g., 90" required />
+          </div>
+
+          <div class="form-group">
+            <label>Phosphorous (P) <span class="unit">kg/ha</span></label>
+            <input type="number" step="any" name="P" placeholder="e.g., 42" required />
+          </div>
+
+          <div class="form-group">
+            <label>Potassium (K) <span class="unit">kg/ha</span></label>
+            <input type="number" step="any" name="K" placeholder="e.g., 43" required />
+          </div>
+
+          <div class="form-group">
+            <label>Temperature <span class="unit">°C</span></label>
+            <input type="number" step="any" name="temperature" placeholder="e.g., 25.6" required />
+          </div>
+
+          <div class="form-group">
+            <label>Humidity <span class="unit">%</span></label>
+            <input type="number" step="any" name="humidity" placeholder="e.g., 80" required />
+          </div>
+
+          <div class="form-group">
+            <label>pH Level</label>
+            <input type="number" step="any" name="ph" placeholder="e.g., 6.5" required />
+          </div>
+
+          <div class="form-group">
+            <label>Rainfall <span class="unit">mm</span></label>
+            <input type="number" step="any" name="rainfall" placeholder="e.g., 203" required />
+          </div>
+
+          <div class="button-container">
+            <button type="submit">Get Crop Recommendation</button>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
